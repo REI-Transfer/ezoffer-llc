@@ -91,7 +91,7 @@ export default function HomePage() {
               width={800}
               height={800}
               sizes="(max-width: 768px) 100vw, 384px"
-              className="mt-4 h-auto w-full rounded-2xl shadow-sm"
+              className="mt-4 h-auto w-full rounded-2xl"
             />
           </div>
 
