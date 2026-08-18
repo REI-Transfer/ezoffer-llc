@@ -45,7 +45,7 @@ const config = {
   termsUrl:         process.env.TERMS_URL           ?? "/terms",
 
   // Survey disqualification — comma-separated property type IDs to hard-disqualify
-  disqualifiedPropertyTypes: process.env.DISQUALIFIED_PROPERTY_TYPES ?? "mobile-home,land,other",
+  disqualifiedPropertyTypes: process.env.DISQUALIFIED_PROPERTY_TYPES ?? "mobile-home-parked,land,other",
 
   // Webhook (server-side only — never exposed to browser)
   webhookUrl:      process.env.WEBHOOK_URL ?? "",
