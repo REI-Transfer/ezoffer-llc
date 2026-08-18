@@ -27,7 +27,8 @@ const PROPERTY_TYPE_OPTIONS = [
   { id: "single-family", label: "Single Family Home" },
   { id: "multi-family", label: "Multi-Family (Duplex, Triplex, etc.)" },
   { id: "condo-townhouse", label: "Condo / Townhouse" },
-  { id: "mobile-home", label: "Mobile / Manufactured Home" },
+  { id: "mobile-home-land", label: "Mobile Home (Land)" },
+  { id: "mobile-home-parked", label: "Mobile Home (parked/leased)" },
   { id: "land", label: "Vacant Land / Lot" },
   { id: "other", label: "Other" },
 ]
@@ -101,7 +102,7 @@ function calculateLeadScore(d: SurveyData): number {
   return Math.min(10, t + r + c)
 }
 function isQualifiedForMeta(d: SurveyData): boolean {
-  const okType = d.propertyType === 'single-family' || d.propertyType === 'multi-family'
+  const okType = d.propertyType === 'single-family' || d.propertyType === 'multi-family' || d.propertyType === 'mobile-home-land'
   const okListed = d.listedOnMarket === 'not-listed'
   const okOwner = d.isLegalOwner !== 'no'
   const okCondition = d.condition !== 'excellent'
@@ -113,7 +114,7 @@ function leadQuality(score: number): 'premium' | 'standard' | 'low' {
   return 'low'
 }
 function disqualifyReasonFor(d: SurveyData): string {
-  if (d.propertyType !== 'single-family' && d.propertyType !== 'multi-family') return 'property_type'
+  if (d.propertyType !== 'single-family' && d.propertyType !== 'multi-family' && d.propertyType !== 'mobile-home-land') return 'property_type'
   if (d.listedOnMarket !== 'not-listed') return 'listed'
   if (d.isLegalOwner === 'no') return 'not_owner'
   if (d.condition === 'excellent') return 'excellent_condition'
@@ -206,7 +207,7 @@ interface SurveyCardProps {
   initialStep?: number
 }
 
-export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "8000000000", serviceAreas = [], disqualifiedPropertyTypes = ["mobile-home", "land", "other"], initialAddress, initialStep }: SurveyCardProps) {
+export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "8000000000", serviceAreas = [], disqualifiedPropertyTypes = ["mobile-home-parked", "land", "other"], initialAddress, initialStep }: SurveyCardProps) {
   const [step, setStep] = useState(initialStep && initialStep >= 2 && initialStep <= 8 ? initialStep : 1)
   const [surveyData, setSurveyData] = useState<SurveyData>({
     address: initialAddress ?? "",
